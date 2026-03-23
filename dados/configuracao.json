@@ -1,0 +1,12 @@
+{
+  "porta": 5000,
+  "intervalo_minutos": 15,
+  "abrir_navegador": true,
+  "foco_coleta": "automatico",
+  "idioma_loja": "brazilian",
+  "pais_loja": "br",
+  "timeout_requisicao_segundos": 30,
+  "registrar_logs_robot": true,
+  "limite_logs_robot": 40,
+  "notificacoes_navegador_ativas": true
+}

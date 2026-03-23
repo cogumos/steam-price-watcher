@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Stecogu | Monitoramento local</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='imagens/favicon-stecogu.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilo.css') }}">
+</head>
+<body class="pagina-carregando">
+    <div id="tela-abertura" class="tela-abertura" aria-hidden="true">
+        <div class="tela-abertura__conteudo">
+            <img class="tela-abertura__logo" src="{{ url_for('static', filename='imagens/logo-stecogu.png') }}" alt="Stecogu">
+            <div class="tela-abertura__barra">
+                <span id="tela-abertura-barra" class="tela-abertura__barra-preenchimento"></span>
+            </div>
+            <p id="tela-abertura-status" class="tela-abertura__status">Iniciando ambiente local</p>
+        </div>
+    </div>
+
+    <div id="aplicacao-principal" class="aplicacao-principal">
+    <header class="topo-steam">
+        <div class="topo-steam__linha topo-steam__linha--principal">
+            <a class="marca" href="#inicio" aria-label="Ir para o início">
+                <span class="marca__sobre">Monitoramento local</span>
+                <img class="marca__imagem" src="{{ url_for('static', filename='imagens/logo-stecogu.png') }}" alt="Stecogu">
+            </a>
+
+            <nav class="navegacao-principal" aria-label="Navegação principal">
+                <a data-visao-link href="#inicio">INÍCIO</a>
+                <a data-visao-link href="#biblioteca">BIBLIOTECA</a>
+                <a data-visao-link href="#alertas">ALERTAS</a>
+                <a data-visao-link href="#status">STATUS</a>
+                <a data-visao-link href="#configuracao">CONFIGURAÇÃO</a>
+            </nav>
+
+            <div class="topo-steam__acoes">
+                <span id="versao-projeto-topo">Versão 1.0</span>
+                <span>Flask + Robot Framework</span>
+                <span>SQLite local</span>
+            </div>
+        </div>
+
+        <div class="topo-steam__linha topo-steam__linha--secundaria">
+            <nav class="navegacao-secundaria" aria-label="Atalhos">
+                <a data-visao-link href="#inicio">Destaques</a>
+                <a data-visao-link href="#biblioteca">Jogos monitorados</a>
+                <a data-visao-link href="#detalhe">Detalhe do jogo</a>
+            </nav>
+
+            <form id="formulario-busca-steam" class="busca-global" autocomplete="off" role="search">
+                <input id="busca-jogos" type="search" placeholder="Pesquisar na Steam para adicionar" aria-label="Pesquisar na Steam para adicionar">
+                <button class="busca-global__botao" type="submit">Buscar</button>
+                <div id="busca-steam-progresso" class="busca-global__progresso oculto" aria-hidden="true">
+                    <span id="busca-steam-progresso-barra" class="busca-global__progresso-barra"></span>
+                </div>
+                <div id="painel-busca-steam" class="painel-busca-steam oculto">
+                    <div class="painel-busca-steam__topo">
+                        <strong id="titulo-busca-steam">Buscar na Steam</strong>
+                        <span id="contagem-busca-steam">Digite pelo menos 2 caracteres para pesquisar.</span>
+                    </div>
+                    <div id="lista-busca-steam" class="lista-busca-steam">
+                        <div class="vazio">Digite o nome de um jogo para buscar na Steam.</div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </header>
+
+    <main class="pagina">
+        <section class="visao visao--ativa" data-visao="inicio">
+            <section class="bloco-home">
+                <article class="painel painel--hero">
+                    <div class="painel__cabecalho">
+                        <div>
+                            <p class="painel__rotulo">Destaques e recomendados</p>
+                            <h1>Uma central local com aparência de loja para vigiar preços da Steam em tempo real.</h1>
+                        </div>
+                        <div class="painel__hero-acoes">
+                            <span class="painel__versao" id="versao-projeto-home">Versão 1.0</span>
+                            <button id="botao-ir-configuracao" class="botao-secundario" type="button">Adicionar jogo</button>
+                        </div>
+                    </div>
+
+                    <div class="carrossel">
+                        <button id="botao-slide-anterior" class="carrossel__seta carrossel__seta--anterior" type="button" aria-label="Slide anterior">&#8249;</button>
+
+                        <div class="carrossel__principal">
+                            <div id="carrossel-principal"></div>
+                            <div class="carrossel__indicadores">
+                                <button id="botao-slide-pausa" class="carrossel__controle" type="button">Pausar</button>
+                                <div id="lista-indicadores-slide" class="carrossel__pontos"></div>
+                            </div>
+                        </div>
+
+                        <aside class="carrossel__lateral">
+                            <div class="carrossel__lateral-topo">
+                                <span>Em destaque</span>
+                                <strong id="texto-slide-atual">Carregando</strong>
+                            </div>
+                            <div id="lista-miniaturas-slide" class="carrossel__miniaturas"></div>
+                        </aside>
+
+                        <button id="botao-slide-proximo" class="carrossel__seta carrossel__seta--proximo" type="button" aria-label="Próximo slide">&#8250;</button>
+                    </div>
+                </article>
+
+                <section class="faixa-indicadores">
+                    <article class="indicador">
+                        <span>Jogos monitorados</span>
+                        <strong id="resumo-jogos">0</strong>
+                    </article>
+                    <article class="indicador">
+                        <span>Jogos em promoção</span>
+                        <strong id="resumo-promocoes">0</strong>
+                    </article>
+                    <article class="indicador">
+                        <span>Alertas recentes</span>
+                        <strong id="resumo-alertas">0</strong>
+                    </article>
+                    <article class="indicador">
+                        <span>Próxima checagem</span>
+                        <strong id="resumo-proxima">Carregando</strong>
+                    </article>
+                </section>
+
+                <section class="faixa-live">
+                    <article class="card-live">
+                        <span class="card-live__rotulo">Foco atual do robô</span>
+                        <strong id="foco-coleta-home">Carregando</strong>
+                        <p>Escolha entre automático, API da Steam ou leitura direta da página.</p>
+                    </article>
+                    <article class="card-live">
+                        <span class="card-live__rotulo">Última origem de coleta</span>
+                        <strong id="origem-coleta-home">Carregando</strong>
+                        <p>Veja se o preço veio da API oficial ou do HTML da loja.</p>
+                    </article>
+                    <article class="card-live">
+                        <span class="card-live__rotulo">Notificações do navegador</span>
+                        <strong id="estado-notificacao-home">Aguardando</strong>
+                        <p>A permissão só é solicitada quando você clicar no botão de ativação.</p>
+                    </article>
+                </section>
+
+                <section class="grade-home">
+                    <article class="painel">
+                        <div class="painel__cabecalho">
+                            <div>
+                                <p class="painel__rotulo">Biblioteca em destaque</p>
+                                <h2>Capsulas monitoradas</h2>
+                            </div>
+                            <button id="botao-ir-biblioteca" class="botao-link" type="button">Abrir biblioteca</button>
+                        </div>
+                        <div id="grade-destaques" class="grade-destaques"></div>
+                    </article>
+
+                    <article class="painel">
+                        <div class="painel__cabecalho">
+                            <div>
+                                <p class="painel__rotulo">Resumo rápido</p>
+                                <h2>Alertas, operação e notificações</h2>
+                            </div>
+                        </div>
+                        <div class="grade-resumo-home">
+                            <div class="resumo-home__bloco">
+                                <span>Servidor local</span>
+                                <strong id="porta-local-home">--</strong>
+                            </div>
+                            <div class="resumo-home__bloco">
+                                <span>Monitoramento</span>
+                                <strong id="estado-resumido-home">Aguardando</strong>
+                            </div>
+                        </div>
+                        <div id="lista-alertas-home" class="lista-alertas lista-alertas--compacta"></div>
+                    </article>
+                </section>
+            </section>
+        </section>
+
+        <section class="visao" data-visao="biblioteca">
+            <article class="painel">
+                <div class="painel__cabecalho">
+                    <div>
+                        <p class="painel__rotulo">Biblioteca monitorada</p>
+                        <h2>Jogos acompanhados</h2>
+                    </div>
+                    <span id="contador-jogos-visiveis" class="painel__contador">0 jogos</span>
+                </div>
+                <div class="painel__ferramentas">
+                    <label class="campo-painel campo-painel--busca" for="busca-biblioteca">
+                        <span>Buscar na biblioteca</span>
+                        <input id="busca-biblioteca" type="search" placeholder="Filtrar por nome, ID ou link da Steam">
+                    </label>
+                    <label class="campo-painel campo-painel--selecao" for="ordenacao-biblioteca">
+                        <span>Ordenar por</span>
+                        <select id="ordenacao-biblioteca">
+                            <option value="atualizacao">Última atualização</option>
+                            <option value="desconto">Maior desconto</option>
+                            <option value="preco">Menor preço</option>
+                            <option value="nome">Nome do jogo</option>
+                        </select>
+                    </label>
+                </div>
+                <div id="filtros-biblioteca" class="faixa-filtros">
+                    <button class="chip-filtro chip-filtro--ativo" type="button" data-filtro-biblioteca="todos">Todos</button>
+                    <button class="chip-filtro" type="button" data-filtro-biblioteca="promocao">Em promoção</button>
+                    <button class="chip-filtro" type="button" data-filtro-biblioteca="alvo">Com preço-alvo</button>
+                    <button class="chip-filtro" type="button" data-filtro-biblioteca="recentes">Atualizados hoje</button>
+                </div>
+                <div id="resumo-biblioteca" class="grade-resumo-biblioteca"></div>
+                <div id="lista-jogos" class="grade-jogos"></div>
+            </article>
+        </section>
+
+        <section class="visao" data-visao="alertas">
+            <article class="painel">
+                <div class="painel__cabecalho">
+                    <div>
+                        <p class="painel__rotulo">Alertas do sistema</p>
+                        <h2>Todos os avisos recentes</h2>
+                    </div>
+                </div>
+                <div id="lista-alertas" class="lista-alertas"></div>
+            </article>
+        </section>
+
+        <section class="visao" data-visao="status">
+            <div class="grade-status">
+                <article class="painel">
+                    <div class="painel__cabecalho">
+                        <div>
+                            <p class="painel__rotulo">Estado do robô</p>
+                            <h2>Monitoramento local</h2>
+                        </div>
+                        <div class="painel__porta">
+                            <span>Porta local</span>
+                            <strong id="porta-local">--</strong>
+                        </div>
+                    </div>
+                    <p id="estado-monitoramento" class="estado-monitoramento">Carregando status do robô.</p>
+                    <div class="acoes-status">
+                        <button class="botao-secundario botao-monitorar-agora" type="button">Executar monitoramento agora</button>
+                    </div>
+                </article>
+
+                <article class="painel">
+                    <div class="painel__cabecalho">
+                        <div>
+                            <p class="painel__rotulo">Agenda</p>
+                            <h2>Janelas de execução</h2>
+                        </div>
+                        <span class="painel__versao" id="versao-projeto-status">Versão 1.0</span>
+                    </div>
+                    <div class="grade-resumo-status">
+                        <div class="status-card">
+                            <span>Última execução</span>
+                            <strong id="status-ultima-execucao">Aguardando</strong>
+                        </div>
+                        <div class="status-card">
+                            <span>Próxima execução</span>
+                            <strong id="status-proxima-execucao">Aguardando</strong>
+                        </div>
+                        <div class="status-card">
+                            <span>Último erro</span>
+                            <strong id="status-ultimo-erro">Nenhum</strong>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <article class="painel painel--logs">
+                <div class="painel__cabecalho">
+                    <div>
+                        <p class="painel__rotulo">Atividade do robô</p>
+                        <h2>Logs recentes de coleta</h2>
+                    </div>
+                    <div class="painel__meta">
+                        <span id="origem-coleta-status">Carregando</span>
+                        <span id="timeout-requisicao-status">--</span>
+                    </div>
+                </div>
+                <div class="painel__ferramentas painel__ferramentas--logs">
+                    <label class="campo-painel campo-painel--busca" for="busca-logs-robot">
+                        <span>Buscar nos logs</span>
+                        <input id="busca-logs-robot" type="search" placeholder="Filtrar por mensagem, etapa ou nome do jogo">
+                    </label>
+                </div>
+                <div id="filtros-logs-robot" class="faixa-filtros faixa-filtros--logs">
+                    <button class="chip-filtro chip-filtro--ativo" type="button" data-filtro-log="todos">Todos</button>
+                    <button class="chip-filtro" type="button" data-filtro-log="api">API</button>
+                    <button class="chip-filtro" type="button" data-filtro-log="pagina">Página</button>
+                    <button class="chip-filtro" type="button" data-filtro-log="sistema">Sistema</button>
+                    <button class="chip-filtro" type="button" data-filtro-log="erro">Erro</button>
+                </div>
+                <div id="lista-logs-robot" class="lista-logs-robot"></div>
+                <div id="acoes-logs-robot" class="logs-robot__acoes oculto">
+                    <span id="contador-logs-robot" class="logs-robot__contador">Exibindo 0 de 0 logs</span>
+                    <button id="botao-carregar-mais-logs" class="botao-secundario logs-robot__botao" type="button">Carregar mais logs</button>
+                </div>
+            </article>
+        </section>
+
+        <section class="visao" data-visao="configuracao">
+            <div class="grade-configuracao">
+                <article class="painel">
+                    <div class="painel__cabecalho">
+                        <div>
+                            <p class="painel__rotulo">Cadastro</p>
+                            <h2>Adicionar jogo ao monitoramento</h2>
+                        </div>
+                    </div>
+                    <form id="formulario-jogo" class="formulario">
+                        <label for="url-jogo">Link do jogo da Steam</label>
+                        <input id="url-jogo" name="url" type="url" placeholder="https://store.steampowered.com/app/..." required>
+                        <label for="preco-alvo">Preço-alvo opcional</label>
+                        <input id="preco-alvo" name="preco_alvo" type="text" inputmode="decimal" placeholder="79,90">
+                        <button id="botao-adicionar-jogo-formulario" type="submit">Adicionar jogo</button>
+                    </form>
+                </article>
+
+                <article class="painel painel--config-robot">
+                    <div class="painel__cabecalho">
+                        <div>
+                            <p class="painel__rotulo">Controle do robô</p>
+                            <h2>Configurações da coleta</h2>
+                        </div>
+                        <span class="painel__versao" id="versao-projeto-config">Versão 1.0</span>
+                    </div>
+                    <form id="formulario-configuracao" class="formulario">
+                        <label for="intervalo-minutos">Checagem automática a cada</label>
+                        <div class="formulario__linha">
+                            <input id="intervalo-minutos" name="intervalo_minutos" type="number" min="1" step="1" required>
+                            <span>minutos</span>
+                        </div>
+
+                        <label for="foco-coleta">Foco da coleta</label>
+                        <div id="escolhas-foco-coleta" class="escolhas-foco">
+                            <button class="escolha-foco escolha-foco--ativa" type="button" data-foco-coleta-opcao="automatico" aria-pressed="true">
+                                <strong>Automático</strong>
+                                <span>Tenta a API primeiro e usa a página como apoio.</span>
+                            </button>
+                            <button class="escolha-foco" type="button" data-foco-coleta-opcao="api" aria-pressed="false">
+                                <strong>Somente API</strong>
+                                <span>Prioriza velocidade e leitura oficial da Steam.</span>
+                            </button>
+                            <button class="escolha-foco" type="button" data-foco-coleta-opcao="pagina" aria-pressed="false">
+                                <strong>Somente página</strong>
+                                <span>Faz leitura visual direta da loja.</span>
+                            </button>
+                        </div>
+                        <input id="foco-coleta" name="foco_coleta" type="hidden" value="automatico">
+
+                        <label for="idioma-loja">Idioma da loja</label>
+                        <div class="campo-fixo">
+                            <strong>Português do Brasil</strong>
+                            <span>Padrão fixo do projeto para manter a coleta consistente.</span>
+                        </div>
+                        <input id="idioma-loja" name="idioma_loja" type="hidden" value="brazilian">
+
+                        <label for="pais-loja">País da loja</label>
+                        <div class="campo-fixo">
+                            <strong>Brasil</strong>
+                            <span>Padrão fixo para preços e promoções locais.</span>
+                        </div>
+                        <input id="pais-loja" name="pais_loja" type="hidden" value="br">
+
+                        <label for="timeout-requisicao">Tempo limite das requisições</label>
+                        <div class="formulario__linha">
+                            <input id="timeout-requisicao" name="timeout_requisicao_segundos" type="number" min="5" step="1" required>
+                            <span>segundos</span>
+                        </div>
+
+                        <label for="limite-logs-robot">Quantidade de logs no painel</label>
+                        <div class="formulario__linha">
+                            <input id="limite-logs-robot" name="limite_logs_robot" type="number" min="10" max="200" step="1" required>
+                            <span>itens</span>
+                        </div>
+
+                        <label class="formulario__alternancia" for="registrar-logs-robot">
+                            <input id="registrar-logs-robot" name="registrar_logs_robot" type="checkbox">
+                            <span>Registrar logs detalhados do Robot Framework</span>
+                        </label>
+
+                        <label class="formulario__alternancia" for="abrir-navegador">
+                            <input id="abrir-navegador" name="abrir_navegador" type="checkbox">
+                            <span>Abrir o navegador automaticamente ao iniciar</span>
+                        </label>
+
+                        <button type="submit">Salvar configurações</button>
+                    </form>
+                    <button class="botao-secundario botao-monitorar-agora" type="button">Executar monitoramento agora</button>
+                </article>
+            </div>
+
+            <div class="grade-configuracao grade-configuracao--secundaria">
+                <article class="painel">
+                    <div class="painel__cabecalho">
+                        <div>
+                            <p class="painel__rotulo">Notificações</p>
+                            <h2>Navegador e promoções</h2>
+                        </div>
+                    </div>
+                    <div class="painel-notificacoes">
+                        <div class="status-notificacao">
+                            <span>Status atual</span>
+                            <strong id="status-notificacao">Permissão não solicitada</strong>
+                        </div>
+                        <p class="texto-suave">A permissão só será solicitada quando você clicar no botão abaixo.</p>
+                        <div class="acoes-detalhe">
+                            <button id="botao-habilitar-notificacoes" class="botao-secundario" type="button">Habilitar notificações</button>
+                            <button id="botao-desativar-notificacoes" class="botao-link" type="button">Desativar notificações</button>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="painel">
+                    <div class="painel__cabecalho">
+                        <div>
+                            <p class="painel__rotulo">Perfil da coleta</p>
+                            <h2>Resumo técnico</h2>
+                        </div>
+                    </div>
+                    <div class="grade-resumo-status">
+                        <div class="status-card">
+                            <span>Versão do projeto</span>
+                            <strong id="versao-projeto-card">1.0</strong>
+                        </div>
+                        <div class="status-card">
+                            <span>Foco ativo</span>
+                            <strong id="foco-coleta-config">Automático</strong>
+                        </div>
+                        <div class="status-card">
+                            <span>Última origem</span>
+                            <strong id="origem-coleta-config">Aguardando</strong>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section class="visao" data-visao="detalhe">
+            <article class="painel">
+                <div class="painel__cabecalho painel__cabecalho--detalhe">
+                    <div>
+                        <p class="painel__rotulo">Detalhe do jogo</p>
+                        <h2 id="titulo-detalhe-jogo">Selecione um jogo</h2>
+                        <p id="subtitulo-detalhe-jogo" class="texto-suave">Abra a biblioteca e clique em um card para ver somente os dados daquele jogo.</p>
+                    </div>
+                    <div class="acoes-detalhe">
+                        <button id="botao-voltar-biblioteca" class="botao-link" type="button">Voltar para biblioteca</button>
+                        <button id="botao-atualizar-detalhe" class="botao-secundario" type="button">Atualizar jogo</button>
+                    </div>
+                </div>
+
+                <div id="painel-detalhe-jogo" class="detalhe-jogo detalhe-jogo--vazio">
+                    <div class="vazio">Nenhum jogo foi selecionado.</div>
+                </div>
+            </article>
+        </section>
+    </main>
+
+    <footer class="rodape">
+        <div class="rodape__conteudo">
+            <span>Criado por cogumos</span>
+            <a class="rodape__github" href="https://github.com/cogumos" target="_blank" rel="noreferrer" aria-label="Abrir GitHub de cogumos">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M12 2C6.48 2 2 6.59 2 12.26c0 4.54 2.87 8.39 6.84 9.75.5.1.68-.22.68-.49 0-.24-.01-1.05-.01-1.9-2.78.62-3.37-1.21-3.37-1.21-.45-1.19-1.11-1.5-1.11-1.5-.91-.64.07-.63.07-.63 1 .08 1.53 1.06 1.53 1.06.89 1.56 2.34 1.11 2.91.85.09-.66.35-1.11.63-1.37-2.22-.26-4.56-1.14-4.56-5.08 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.31.1-2.73 0 0 .84-.28 2.75 1.05A9.35 9.35 0 0 1 12 6.84a9.3 9.3 0 0 1 2.5.35c1.91-1.33 2.75-1.05 2.75-1.05.55 1.42.2 2.47.1 2.73.64.72 1.03 1.63 1.03 2.75 0 3.95-2.35 4.81-4.59 5.06.36.32.68.95.68 1.92 0 1.39-.01 2.51-.01 2.85 0 .27.18.6.69.49A10.28 10.28 0 0 0 22 12.26C22 6.59 17.52 2 12 2Z"/>
+                </svg>
+            </a>
+        </div>
+    </footer>
+
+    <div id="menu-contexto" class="menu-contexto oculto"></div>
+    <div id="mensagem-flutuante" class="mensagem-flutuante oculto"></div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/painel.js') }}" defer></script>
+</body>
+</html>
