@@ -1,0 +1,410 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Stecogu - fluxo do rob&#244; local</title>
+  <desc id="desc">Diagrama em estilo Steam mostrando a entrada de jogos, o rob&#244; local, a Steam API, a p&#225;gina da loja, o pipeline de processamento, o banco SQLite, os alertas e a atualiza&#231;&#227;o do painel.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0b141d"/>
+      <stop offset="42%" stop-color="#101822"/>
+      <stop offset="100%" stop-color="#1b2838"/>
+    </linearGradient>
+    <linearGradient id="headerGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1c2d3e"/>
+      <stop offset="100%" stop-color="#101822"/>
+    </linearGradient>
+    <linearGradient id="panelGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#25384d"/>
+      <stop offset="100%" stop-color="#141f2c"/>
+    </linearGradient>
+    <linearGradient id="panelGradDeep" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#223246"/>
+      <stop offset="100%" stop-color="#0f1822"/>
+    </linearGradient>
+    <linearGradient id="blueChip" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1a9fff"/>
+      <stop offset="100%" stop-color="#66c0f4"/>
+    </linearGradient>
+    <linearGradient id="greenChip" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#9fd72e"/>
+      <stop offset="100%" stop-color="#6f9f12"/>
+    </linearGradient>
+    <linearGradient id="orangeChip" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffb357"/>
+      <stop offset="100%" stop-color="#ef7d1a"/>
+    </linearGradient>
+    <linearGradient id="softBlue" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#35597d"/>
+      <stop offset="100%" stop-color="#223246"/>
+    </linearGradient>
+    <radialGradient id="glowLeft" cx="0.2" cy="0.1" r="0.75">
+      <stop offset="0%" stop-color="#66c0f4" stop-opacity="0.22"/>
+      <stop offset="55%" stop-color="#66c0f4" stop-opacity="0.06"/>
+      <stop offset="100%" stop-color="#66c0f4" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowRight" cx="0.8" cy="0.18" r="0.62">
+      <stop offset="0%" stop-color="#1a9fff" stop-opacity="0.18"/>
+      <stop offset="55%" stop-color="#1a9fff" stop-opacity="0.05"/>
+      <stop offset="100%" stop-color="#1a9fff" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowGreen" cx="0.5" cy="0.5" r="0.8">
+      <stop offset="0%" stop-color="#a4d007" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#a4d007" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" fill="none" stroke="#ffffff" stroke-opacity="0.045" stroke-width="1"/>
+    </pattern>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="18" stdDeviation="20" flood-color="#000000" flood-opacity="0.28"/>
+    </filter>
+    <filter id="softGlowFilter" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="18"/>
+    </filter>
+    <marker id="arrowBlue" markerWidth="6" markerHeight="6" refX="5.2" refY="3" orient="auto">
+      <path d="M0 0L6 3L0 6Z" fill="#66c0f4"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="6" markerHeight="6" refX="5.2" refY="3" orient="auto">
+      <path d="M0 0L6 3L0 6Z" fill="#a4d007"/>
+    </marker>
+    <marker id="arrowOrange" markerWidth="6" markerHeight="6" refX="5.2" refY="3" orient="auto">
+      <path d="M0 0L6 3L0 6Z" fill="#ffb357"/>
+    </marker>
+    <marker id="arrowOrangeSmall" markerWidth="4.5" markerHeight="4.5" refX="3.9" refY="2.25" orient="auto">
+      <path d="M0 0L4.5 2.25L0 4.5Z" fill="#ffb357"/>
+    </marker>
+  </defs>
+
+  <style>
+    text {
+      font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+      text-rendering: geometricPrecision;
+    }
+    .eyebrow {
+      fill: #66c0f4;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2.2px;
+    }
+    .hero-title {
+      fill: #f3f9ff;
+      font-size: 30px;
+      font-weight: 700;
+    }
+    .hero-subtitle {
+      fill: #b4c8d8;
+      font-size: 15px;
+    }
+    .panel-title {
+      fill: #f3f9ff;
+      font-size: 20px;
+      font-weight: 700;
+    }
+    .panel-body {
+      fill: #a7bccd;
+      font-size: 13px;
+    }
+    .small {
+      fill: #cfe3f1;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .logo-title {
+      fill: #f3f9ff;
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 1.1px;
+    }
+    .muted {
+      fill: #8f98a0;
+      font-size: 11px;
+    }
+    .muted-compact {
+      fill: #8f98a0;
+      font-size: 9px;
+    }
+    .tiny {
+      fill: #a6bfd2;
+      font-size: 10px;
+      letter-spacing: 0.9px;
+    }
+    .chip-text-dark {
+      fill: #102030;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+    .chip-text-light {
+      fill: #eef9ff;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+    .step-pill {
+      fill: url(#softBlue);
+      stroke: #66c0f4;
+      stroke-opacity: 0.35;
+      stroke-width: 1.2;
+    }
+    .panel-outline {
+      stroke: #66c0f4;
+      stroke-opacity: 0.14;
+      stroke-width: 1.2;
+    }
+    .connector-label {
+      fill: #d9edf9;
+      font-size: 8.5px;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+    }
+  </style>
+
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <rect width="1600" height="900" fill="url(#grid)"/>
+  <circle cx="250" cy="90" r="340" fill="url(#glowLeft)"/>
+  <circle cx="1340" cy="110" r="300" fill="url(#glowRight)"/>
+  <circle cx="1280" cy="680" r="210" fill="url(#glowGreen)"/>
+
+  <g filter="url(#shadow)">
+    <rect x="60" y="48" width="1480" height="100" rx="26" fill="url(#headerGrad)" class="panel-outline"/>
+    <rect x="61" y="49" width="1478" height="26" rx="26" fill="#ffffff" fill-opacity="0.03"/>
+  </g>
+
+  <g>
+    <rect x="90" y="72" width="210" height="52" rx="26" fill="url(#panelGrad)" stroke="#66c0f4" stroke-opacity="0.28"/>
+    <text x="195" y="105" text-anchor="middle" class="logo-title">STECOGU</text>
+
+    <text x="330" y="93" class="hero-title">Fluxo de consulta &#224; Steam</text>
+    <text x="330" y="122" class="hero-subtitle">Busca no painel, escolhe a origem, normaliza os pre&#231;os, grava o hist&#243;rico e devolve alertas ao dashboard.</text>
+
+    <g transform="translate(1120 76)">
+      <rect x="0" y="0" width="82" height="28" rx="14" fill="url(#blueChip)"/>
+      <text x="41" y="18.5" text-anchor="middle" class="chip-text-dark">FLASK UI</text>
+      <rect x="90" y="0" width="82" height="28" rx="14" fill="url(#greenChip)"/>
+      <text x="131" y="18.5" text-anchor="middle" class="chip-text-dark">ROBOT</text>
+      <rect x="180" y="0" width="98" height="28" rx="14" fill="url(#orangeChip)"/>
+      <text x="229" y="18.5" text-anchor="middle" class="chip-text-dark">STEAM DATA</text>
+      <rect x="286" y="0" width="76" height="28" rx="14" fill="#1b2838" stroke="#66c0f4" stroke-opacity="0.25"/>
+      <text x="324" y="18.5" text-anchor="middle" class="chip-text-light">SQLITE</text>
+    </g>
+  </g>
+
+  <g>
+    <path d="M360 305H400" fill="none" stroke="#66c0f4" stroke-width="4" stroke-linecap="round" marker-end="url(#arrowBlue)"/>
+
+    <path d="M760 248H800" fill="none" stroke="#a4d007" stroke-width="4" stroke-linecap="round" marker-end="url(#arrowGreen)"/>
+
+    <path d="M760 376C774 376 778 430 792 430" fill="none" stroke="#ffb357" stroke-width="4" stroke-linecap="round" marker-end="url(#arrowOrangeSmall)"/>
+
+    <path d="M1090 245H1130" fill="none" stroke="#a4d007" stroke-width="4" stroke-linecap="round" marker-end="url(#arrowGreen)"/>
+
+    <path d="M1090 435C1110 435 1110 425 1130 425" fill="none" stroke="#ffb357" stroke-width="4" stroke-linecap="round" marker-end="url(#arrowOrange)"/>
+
+    <path d="M580 550V560" fill="none" stroke="#66c0f4" stroke-opacity="0.45" stroke-width="2" stroke-dasharray="8 8" marker-end="url(#arrowBlue)"/>
+
+    <path d="M1325 840C1325 868 250 868 140 868C110 868 110 650 110 540" fill="none" stroke="#66c0f4" stroke-opacity="0.5" stroke-width="3" stroke-dasharray="10 10" marker-end="url(#arrowBlue)"/>
+  </g>
+
+  <g transform="translate(70 180)" filter="url(#shadow)">
+    <rect width="290" height="360" rx="28" fill="url(#panelGrad)" class="panel-outline"/>
+    <rect x="1" y="1" width="288" height="30" rx="28" fill="#ffffff" fill-opacity="0.03"/>
+    <rect x="28" y="26" width="64" height="28" rx="14" class="step-pill"/>
+    <text x="60" y="44" text-anchor="middle" class="chip-text-light">01</text>
+    <text x="28" y="82" class="eyebrow">ENTRADA</text>
+    <text x="28" y="116" class="panel-title">Busca e cadastro</text>
+    <text x="28" y="146" class="panel-body">Usu&#225;rio pesquisa o jogo, cola a URL,</text>
+    <text x="28" y="168" class="panel-body">define o pre&#231;o-alvo e salva no painel.</text>
+
+    <rect x="28" y="188" width="234" height="34" rx="17" fill="#162130" stroke="#66c0f4" stroke-opacity="0.25"/>
+    <circle cx="52" cy="205" r="8" fill="none" stroke="#9cb6cb" stroke-width="2"/>
+    <path d="M58 211L64 217" fill="none" stroke="#9cb6cb" stroke-width="2" stroke-linecap="round"/>
+    <text x="72" y="209" class="muted">Pesquisar na Steam para adicionar</text>
+
+    <rect x="28" y="232" width="234" height="60" rx="16" fill="#1a2736" stroke="#66c0f4" stroke-opacity="0.12"/>
+    <rect x="42" y="245" width="86" height="34" rx="8" fill="url(#softBlue)"/>
+    <text x="145" y="258" class="small">Cyberpunk 2077</text>
+    <text x="145" y="279" class="muted-compact">App ID + URL + pre&#231;o-alvo</text>
+    <rect x="28" y="304" width="104" height="30" rx="15" fill="url(#greenChip)"/>
+    <text x="80" y="324" text-anchor="middle" class="chip-text-dark">Alvo: R$ 79,90</text>
+    <rect x="148" y="304" width="114" height="30" rx="15" fill="url(#blueChip)"/>
+    <text x="205" y="324" text-anchor="middle" class="chip-text-dark">Adicionar jogo</text>
+  </g>
+
+  <g transform="translate(400 160)" filter="url(#shadow)">
+    <rect width="360" height="390" rx="28" fill="url(#panelGrad)" class="panel-outline"/>
+    <rect x="1" y="1" width="358" height="30" rx="28" fill="#ffffff" fill-opacity="0.03"/>
+    <rect x="28" y="26" width="64" height="28" rx="14" class="step-pill"/>
+    <text x="60" y="44" text-anchor="middle" class="chip-text-light">02</text>
+    <text x="28" y="82" class="eyebrow">ORQUESTRADOR</text>
+    <text x="28" y="116" class="panel-title">Rob&#244; local Stecogu</text>
+    <text x="28" y="146" class="panel-body">Flask serve a interface, o scheduler agenda as checagens</text>
+    <text x="28" y="168" class="panel-body">e o Robot Framework dispara a coleta.</text>
+
+    <rect x="28" y="188" width="74" height="26" rx="13" fill="url(#blueChip)"/>
+    <text x="65" y="206" text-anchor="middle" class="chip-text-dark">MANUAL</text>
+    <rect x="112" y="188" width="98" height="26" rx="13" fill="#1b2838" stroke="#66c0f4" stroke-opacity="0.2"/>
+    <text x="161" y="206" text-anchor="middle" class="chip-text-light">AGENDADO</text>
+    <rect x="220" y="188" width="112" height="26" rx="13" fill="url(#greenChip)"/>
+    <text x="276" y="206" text-anchor="middle" class="chip-text-dark">API FIRST</text>
+
+    <g transform="translate(42 225)">
+      <circle cx="58" cy="22" r="34" fill="#122030"/>
+      <circle cx="58" cy="22" r="52" fill="#66c0f4" fill-opacity="0.12" filter="url(#softGlowFilter)"/>
+      <rect x="18" y="-8" width="80" height="64" rx="18" fill="#203247" stroke="#66c0f4" stroke-opacity="0.28"/>
+      <circle cx="45" cy="19" r="8" fill="#66c0f4"/>
+      <circle cx="71" cy="19" r="8" fill="#66c0f4"/>
+      <rect x="39" y="36" width="38" height="8" rx="4" fill="#9fd72e"/>
+      <path d="M58 -18V-4" fill="none" stroke="#66c0f4" stroke-width="4" stroke-linecap="round"/>
+      <path d="M40 -10L58 -18L76 -10" fill="none" stroke="#66c0f4" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+
+    <g transform="translate(154 224)">
+      <rect x="0" y="0" width="178" height="44" rx="14" fill="#1a2736" stroke="#66c0f4" stroke-opacity="0.16"/>
+      <text x="16" y="19" class="small">Fila local</text>
+      <text x="16" y="36" class="muted-compact">jogos da rodada + ordem de consulta</text>
+
+      <rect x="0" y="56" width="178" height="44" rx="14" fill="#1a2736" stroke="#66c0f4" stroke-opacity="0.16"/>
+      <text x="16" y="75" class="small">Scheduler</text>
+      <text x="16" y="92" class="muted-compact">janela autom&#225;tica e gatilho imediato</text>
+
+      <rect x="0" y="112" width="178" height="44" rx="14" fill="#1a2736" stroke="#66c0f4" stroke-opacity="0.16"/>
+      <text x="16" y="131" class="small">Execu&#231;&#227;o</text>
+      <text x="16" y="148" class="muted-compact">API, p&#225;gina e logs t&#233;cnicos do rob&#244;</text>
+    </g>
+  </g>
+
+  <g transform="translate(800 170)" filter="url(#shadow)">
+    <rect width="290" height="170" rx="24" fill="url(#panelGradDeep)" stroke="#a4d007" stroke-opacity="0.28"/>
+    <rect x="24" y="22" width="74" height="28" rx="14" fill="url(#greenChip)"/>
+    <text x="61" y="41" text-anchor="middle" class="chip-text-dark">03A</text>
+    <text x="24" y="78" class="eyebrow" fill="#dff59a">FONTE</text>
+    <text x="24" y="108" class="panel-title">Steam API</text>
+    <text x="24" y="132" class="panel-body">Consulta appdetails, pre&#231;o, desconto</text>
+    <text x="24" y="154" class="panel-body">e metadados com baixa lat&#234;ncia.</text>
+    <g transform="translate(188 44)">
+      <rect x="0" y="0" width="80" height="62" rx="16" fill="#122030" stroke="#a4d007" stroke-opacity="0.26"/>
+      <text x="14" y="24" font-size="24" font-weight="700" fill="#a4d007">{ }</text>
+      <rect x="14" y="34" width="48" height="6" rx="3" fill="#3e566d"/>
+      <rect x="14" y="46" width="38" height="6" rx="3" fill="#66c0f4"/>
+      <rect x="14" y="58" width="56" height="6" rx="3" fill="#9fd72e"/>
+    </g>
+  </g>
+
+  <g transform="translate(800 360)" filter="url(#shadow)">
+    <rect width="290" height="170" rx="24" fill="url(#panelGradDeep)" stroke="#ffb357" stroke-opacity="0.28"/>
+    <rect x="24" y="22" width="74" height="28" rx="14" fill="url(#orangeChip)"/>
+    <text x="61" y="41" text-anchor="middle" class="chip-text-dark">03B</text>
+    <text x="24" y="78" class="eyebrow" fill="#ffd59b">FALLBACK</text>
+    <text x="24" y="108" class="panel-title">P&#225;gina da loja</text>
+    <text x="24" y="132" class="panel-body">L&#234; o HTML quando falta dado ou quando</text>
+    <text x="24" y="154" class="panel-body">o foco da coleta est&#225; na p&#225;gina.</text>
+    <g transform="translate(174 32)">
+      <rect x="0" y="0" width="94" height="78" rx="16" fill="#122030" stroke="#ffb357" stroke-opacity="0.26"/>
+      <rect x="10" y="12" width="74" height="12" rx="6" fill="#30485f"/>
+      <rect x="10" y="32" width="74" height="20" rx="8" fill="url(#softBlue)"/>
+      <rect x="10" y="58" width="34" height="10" rx="5" fill="#9fd72e"/>
+      <rect x="50" y="58" width="22" height="10" rx="5" fill="#ef7d1a"/>
+    </g>
+  </g>
+
+  <g transform="translate(1130 180)" filter="url(#shadow)">
+    <rect width="390" height="700" rx="30" fill="url(#panelGrad)" class="panel-outline"/>
+    <rect x="1" y="1" width="388" height="34" rx="30" fill="#ffffff" fill-opacity="0.03"/>
+    <rect x="30" y="26" width="100" height="28" rx="14" class="step-pill"/>
+    <text x="80" y="44" text-anchor="middle" class="chip-text-light">04 A 07</text>
+    <text x="30" y="86" class="eyebrow">PIPELINE</text>
+    <text x="30" y="120" class="panel-title">Core de processamento</text>
+    <text x="30" y="148" class="panel-body">O snapshot do jogo fica consistente, pronto para</text>
+    <text x="30" y="170" class="panel-body">hist&#243;rico, regras e retorno imediato ao dashboard.</text>
+
+    <g transform="translate(30 204)">
+      <rect width="330" height="98" rx="18" fill="#1a2736" stroke="#66c0f4" stroke-opacity="0.18"/>
+      <rect x="18" y="17" width="72" height="24" rx="12" fill="url(#blueChip)"/>
+      <text x="54" y="34" text-anchor="middle" class="chip-text-dark">04</text>
+      <text x="108" y="34" class="small">Normaliza e valida</text>
+      <text x="108" y="54" class="muted">Moeda, desconto, origem,</text>
+      <text x="108" y="69" class="muted">hor&#225;rio e nome padronizado.</text>
+      <rect x="108" y="79" width="48" height="12" rx="6" fill="#66c0f4"/>
+      <rect x="164" y="79" width="46" height="12" rx="6" fill="#a4d007"/>
+      <rect x="218" y="79" width="58" height="12" rx="6" fill="#ef7d1a"/>
+      <g transform="translate(22 67)">
+        <rect x="0" y="0" width="56" height="12" rx="6" fill="#30485f"/>
+        <rect x="0" y="0" width="42" height="12" rx="6" fill="url(#blueChip)"/>
+      </g>
+    </g>
+
+    <path d="M195 306V328" fill="none" stroke="#66c0f4" stroke-width="4" stroke-linecap="round" marker-end="url(#arrowBlue)"/>
+
+    <g transform="translate(30 334)">
+      <rect width="330" height="92" rx="18" fill="#1a2736" stroke="#66c0f4" stroke-opacity="0.18"/>
+      <rect x="18" y="17" width="72" height="24" rx="12" fill="url(#blueChip)"/>
+      <text x="54" y="34" text-anchor="middle" class="chip-text-dark">05</text>
+      <text x="108" y="34" class="small">Salva em SQLite</text>
+      <text x="108" y="54" class="muted">Hist&#243;rico de pre&#231;os,</text>
+      <text x="108" y="69" class="muted">configura&#231;&#227;o local e logs.</text>
+      <g transform="translate(28 18)">
+        <ellipse cx="24" cy="34" rx="18" ry="8" fill="#66c0f4"/>
+        <rect x="6" y="34" width="36" height="20" fill="#254661"/>
+        <ellipse cx="24" cy="54" rx="18" ry="8" fill="#254661"/>
+      </g>
+    </g>
+
+    <path d="M195 430V452" fill="none" stroke="#a4d007" stroke-width="4" stroke-linecap="round" marker-end="url(#arrowGreen)"/>
+
+    <g transform="translate(30 458)">
+      <rect width="330" height="92" rx="18" fill="#1a2736" stroke="#a4d007" stroke-opacity="0.2"/>
+      <rect x="18" y="17" width="72" height="24" rx="12" fill="url(#greenChip)"/>
+      <text x="54" y="34" text-anchor="middle" class="chip-text-dark">06</text>
+      <text x="108" y="34" class="small">Roda regras e alertas</text>
+      <text x="108" y="54" class="muted">Pre&#231;o-alvo, nova promo&#231;&#227;o,</text>
+      <text x="108" y="69" class="muted">varia&#231;&#227;o e erro.</text>
+      <path d="M37 47L45 55L63 35" fill="none" stroke="#a4d007" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="55" cy="38" r="16" fill="none" stroke="#a4d007" stroke-opacity="0.24" stroke-width="2"/>
+    </g>
+
+    <path d="M195 554V576" fill="none" stroke="#66c0f4" stroke-width="4" stroke-linecap="round" marker-end="url(#arrowBlue)"/>
+
+    <g transform="translate(30 582)">
+      <rect width="330" height="98" rx="18" fill="#1a2736" stroke="#66c0f4" stroke-opacity="0.18"/>
+      <rect x="18" y="17" width="72" height="24" rx="12" fill="url(#blueChip)"/>
+      <text x="54" y="34" text-anchor="middle" class="chip-text-dark">07</text>
+      <text x="108" y="34" class="small">Atualiza painel e navegador</text>
+      <text x="108" y="54" class="muted">Cards, logs e status ao vivo.</text>
+      <text x="108" y="69" class="muted">Toasts e notifica&#231;&#245;es no painel.</text>
+      <g transform="translate(28 16)">
+        <rect x="0" y="0" width="58" height="38" rx="8" fill="#203247" stroke="#66c0f4" stroke-opacity="0.26"/>
+        <rect x="8" y="8" width="42" height="18" rx="4" fill="url(#softBlue)"/>
+        <rect x="20" y="42" width="18" height="4" rx="2" fill="#66c0f4"/>
+      </g>
+      <rect x="252" y="74" width="58" height="18" rx="9" fill="url(#greenChip)"/>
+      <text x="281" y="86" text-anchor="middle" class="chip-text-dark">LIVE</text>
+    </g>
+  </g>
+
+  <g transform="translate(70 560)" filter="url(#shadow)">
+    <rect width="1020" height="170" rx="28" fill="url(#panelGrad)" class="panel-outline"/>
+    <rect x="1" y="1" width="1018" height="28" rx="28" fill="#ffffff" fill-opacity="0.03"/>
+    <text x="30" y="44" class="eyebrow">FOCO DE COLETA</text>
+    <text x="30" y="78" class="panel-title">Como o rob&#244; escolhe a origem</text>
+    <text x="30" y="104" class="panel-body">A estrat&#233;gia muda conforme a configura&#231;&#227;o salva no painel.</text>
+
+    <g transform="translate(30 118)">
+      <rect width="300" height="34" rx="17" fill="url(#greenChip)"/>
+      <text x="150" y="23" text-anchor="middle" class="chip-text-dark">Autom&#225;tico: API primeiro, p&#225;gina como apoio</text>
+    </g>
+    <g transform="translate(360 118)">
+      <rect width="300" height="34" rx="17" fill="#1b2838" stroke="#66c0f4" stroke-opacity="0.2"/>
+      <text x="150" y="23" text-anchor="middle" class="chip-text-light">Somente API: mais r&#225;pido, menos parsing</text>
+    </g>
+    <g transform="translate(690 118)">
+      <rect width="300" height="34" rx="17" fill="url(#orangeChip)"/>
+      <text x="150" y="23" text-anchor="middle" class="chip-text-dark">Somente p&#225;gina: leitura visual da loja</text>
+    </g>
+  </g>
+
+  <g>
+    <circle cx="1392" cy="232" r="4" fill="#66c0f4"/>
+    <circle cx="1392" cy="252" r="4" fill="#a4d007"/>
+    <circle cx="1392" cy="272" r="4" fill="#ffb357"/>
+    <text x="1406" y="236" class="tiny">UI / fluxo</text>
+    <text x="1406" y="256" class="tiny">API / sucesso</text>
+    <text x="1406" y="276" class="tiny">Fallback / p&#225;gina</text>
+  </g>
+</svg>

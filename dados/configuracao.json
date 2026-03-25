@@ -8,5 +8,5 @@
   "timeout_requisicao_segundos": 30,
   "registrar_logs_robot": true,
   "limite_logs_robot": 40,
-  "notificacoes_navegador_ativas": true
+  "notificacoes_navegador_ativas": false
 }
